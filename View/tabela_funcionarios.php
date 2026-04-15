@@ -5,6 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lista de Funcionários - Informações</title>
 </head>
+<style>
+    body { font-family: sans-serif; padding: 20px; background-color: #f4f7f6; }
+    table { width: 100%; border-collapse: collapse; background: white; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+    th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; }
+    th { background-color: #2c3e50; color: white; }
+    tr:hover { background-color: #f1f1f1; }
+    .hash-code { font-family: monospace; color: #27ae60; font-weight: bold; }
+    button { cursor: pointer; transition: opacity 0.2s; }
+    button:hover { opacity: 0.8; }
+</style>
 <body>
     <h1>Funcionários</h1>
     <table border="1">
@@ -15,6 +25,7 @@
                 <th>Nível</th>
                 <th>Data de Início</th>
                 <th>Hash da Íris (Simulado)</th>
+                <th>Ações</th>
             </tr>
         </thead>
         <tbody>
@@ -31,6 +42,18 @@
                         <span style="color: red;">Pendente</span>
                     <?php endif; ?>
                 </td>
+                    <td>
+                    <?php if($f['Iris_Hash'] !== "Não Registrado"): ?>
+                        <form action="../Controller/biometria.php" method="POST">
+                            <input type="hidden" name="matricula" value="<?= $f['Matricula'] ?>">
+                            <input  value="Tirar Óculos" type="submit" style="background: #e74c3c; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 3px;">
+                                
+                        </form>
+                    <?php else: ?>
+                        <small style="color: grey;">Sem óculos</small>
+                    <?php endif; ?>
+                </td>
+
             </tr>      
             <?php endforeach; ?>  
         </tbody>

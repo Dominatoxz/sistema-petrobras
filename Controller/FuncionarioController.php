@@ -16,11 +16,9 @@ class FuncionarioController {
 
 
     public function index() {
-
         $funcionarios = $this->funcionario->buscarTodosComIris();
         require_once dirname(__DIR__) . '/View/tabela_funcionarios.php';
     } 
-
 
 }
 

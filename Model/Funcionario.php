@@ -26,19 +26,25 @@
             $funcionarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
             if ($this->conn_iris){
-                foreach ($funcionarios as &$f){
-                    $sql_iris = "SELECT 
-                                b.hash_iris FROM funcionarios func
+                foreach ($funcionarios as &$f) {
+                    $sql_iris = "SELECT b.hash_iris, b.funcionario_id 
+                                FROM funcionarios func
                                 JOIN biometria_iris b ON func.id_funcionario = b.funcionario_id
                                 WHERE func.matricula = :mat";
-
+                
                     $stmt_iris = $this->conn_iris->prepare($sql_iris);
                     $stmt_iris->bindParam(':mat', $f['Matricula']);
                     $stmt_iris->execute();
                     $dados_iris = $stmt_iris->fetch(PDO::FETCH_ASSOC);
-
-                    $f['Iris_Hash'] = $dados_iris ? $dados_iris['hash_iris'] : 'Não Registrado';
-                }
+                
+                    // Verificamos se $dados_iris existe antes de acessar as chaves
+                    if ($dados_iris) {
+                        $f['Iris_Hash'] = $dados_iris['hash_iris'];
+                        $f['id_funcionario_iris'] = $dados_iris['funcionario_id'];
+                    } else {
+                        $f['Iris_Hash'] = 'Não Registrado';
+                        $f['id_funcionario_iris'] = null;
+                    }
                 
             }
             return $funcionarios;
@@ -46,4 +52,6 @@
         }
 
     }
+
+}
 ?>
