@@ -8,7 +8,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['matricula'])) {
     $matricula = $_POST['matricula'];
 
     try {
-        // Query para deletar o hash baseado na matrícula do funcionário
         $sql = "DELETE b FROM biometria_iris b 
                 JOIN funcionarios f ON b.funcionario_id = f.id_funcionario 
                 WHERE f.matricula = :mat";
@@ -18,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['matricula'])) {
         $stmt->execute();
 
         // Volta para a página inicial (ajuste o caminho se necessário)
-        header("Location: ../index/index.php"); 
+        header("Location: ../index.php"); 
         exit();
     } catch (PDOException $e) {
         echo "Erro ao resetar: " . $e->getMessage();

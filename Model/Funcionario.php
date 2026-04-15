@@ -48,10 +48,21 @@
                 
             }
             return $funcionarios;
-
         }
-
     }
 
+
+        public function verificarHashNoBanco($id) {
+            $db = (new Database_pro())->getConnection();
+            $sql = "SELECT hash_iris FROM biometria_iris WHERE funcionario_id = :id";
+            $stmt = $db->prepare($sql);
+            $stmt->execute(['id' => $id]);
+            $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+            // Retorna true se houver um hash e ele não estiver vazio
+            return ($resultado && !empty($resultado['hash_iris']));
+        }
 }
+
+    
 ?>

@@ -16,6 +16,14 @@
     button:hover { opacity: 0.8; }
 </style>
 <body>
+    <?php if (isset($_GET['status'])): ?>
+        <div style="padding: 15px; margin: 10px 0; border-radius: 4px; font-family: sans-serif; text-align: center;
+                    background-color: <?= $_GET['status'] == 'sucesso' ? '#d4edda' : '#f8d7da' ?>; 
+                    color: <?= $_GET['status'] == 'sucesso' ? '#155724' : '#721c24' ?>;
+                    border: 1px solid <?= $_GET['status'] == 'sucesso' ? '#c3e6cb' : '#f5c6cb' ?>;">
+            <?= htmlspecialchars($_GET['msg']) ?>
+        </div>
+    <?php endif; ?>
     <h1>Funcionários</h1>
     <table border="1">
         <thead>
@@ -24,8 +32,8 @@
                 <th>Cargo</th>
                 <th>Nível</th>
                 <th>Data de Início</th>
-                <th>Hash da Íris (Simulado)</th>
-                <th>Ações</th>
+                <th>Hash da Biometria</th>
+                <th colspan="2">Ações</th>
             </tr>
         </thead>
         <tbody>
@@ -42,18 +50,19 @@
                         <span style="color: red;">Pendente</span>
                     <?php endif; ?>
                 </td>
-                    <td>
+                <td>
                     <?php if($f['Iris_Hash'] !== "Não Registrado"): ?>
                         <form action="../Controller/biometria.php" method="POST">
                             <input type="hidden" name="matricula" value="<?= $f['Matricula'] ?>">
-                            <input  value="Tirar Óculos" type="submit" style="background: #e74c3c; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 3px;">
+                            <input  value="Remover Cadastro" type="submit" style="background: #e74c3c; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 3px;">
                                 
                         </form>
                     <?php else: ?>
                         <small style="color: grey;">Sem óculos</small>
                     <?php endif; ?>
+                    
+                    <a href="index.php?action=validar&id=<?= $f['id_funcionario_iris'] ?>">🔍 Verificar Hash</a>
                 </td>
-
             </tr>      
             <?php endforeach; ?>  
         </tbody>
